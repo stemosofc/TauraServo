@@ -29,18 +29,14 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.hardware.rev.RevSPARKMini;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import android.os.Environment;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.AnalogSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
-import com.qualcomm.robotcore.hardware.ServoImpl;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -70,21 +66,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Tauru Servo Teste", group="Linear OpMode")
-public class TauroServoExample extends LinearOpMode {
-
+@TeleOp(name="Max Range Taura", group="Linear OpMode")
+public class TauraMaxRrange extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        TaurusServoDriver taurusServo = hardwareMap.get(TaurusServoDriver.class, "servoTeste");
+        TauraServo tauraServo = hardwareMap.get(TauraServo.class, "servoTeste");
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            if(gamepad1.a) {
-                taurusServo.setPosition(1.0);
-            } else {
-                taurusServo.setPosition(0.0);
-            }
+        while(opModeIsActive()) {
+            if(gamepad1.a)
+                tauraServo.setPosition(1.0);
+            else
+                tauraServo.setPosition(0.0);
         }
     }}

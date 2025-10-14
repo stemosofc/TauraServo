@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ControlSystem;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
 import com.qualcomm.robotcore.hardware.configuration.ServoFlavor;
@@ -13,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @ServoType(flavor = ServoFlavor.CUSTOM, usPulseLower = 500, usPulseUpper = 2500, xmlTag = "TaurusServo")
 @DeviceProperties(name = "Taurus Servo", xmlTag = "TaurusServo", compatibleControlSystems = ControlSystem.REV_HUB)
-public class TaurusServoDriver implements HardwareDevice {
+public class TauraServo implements HardwareDevice {
 
     private final double MIN_POSITION = 0.0;
     private final double MAX_POSITION = 1.0;
@@ -29,14 +28,12 @@ public class TaurusServoDriver implements HardwareDevice {
     protected double          limitPositionMin = MIN_POSITION;
     protected double          limitPositionMax = MAX_POSITION;
 
-    private AnalogInput analogInput;
-
-    public TaurusServoDriver(ServoControllerEx controller, int portNumber) {
+    public TauraServo(ServoControllerEx controller, int portNumber) {
         this.controller = controller;
         this.portNumber = portNumber;
     }
 
-    public double getPositionWithFeedback() {
+    public double getPositionWithFeedback(AnalogInput analogInput) {
         return analogInput.getVoltage();
     }
 
