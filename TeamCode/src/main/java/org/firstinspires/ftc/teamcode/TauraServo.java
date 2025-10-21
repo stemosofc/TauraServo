@@ -82,6 +82,8 @@ public class TauraServo {
      * Returns the continuous incremental displacement in degrees.
      * Applies "unwrap" across the 0° boundary so small real movements near wrap-around are accumulated correctly.
      * If the analog reading is unavailable (NaN), the accumulator is preserved and returned unchanged.
+     * <p>
+     * Use for Servo in Continous mode.
      */
     public double getIncrementalPositionInDegrees() {
         double actualAngleInDegrees = getRawPositionInDegrees();
