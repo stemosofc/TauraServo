@@ -23,14 +23,12 @@ public class ExampleTaura extends LinearOpMode {
         if (isStopRequested()) return;
 
         while(opModeIsActive()) {
-
             if(gamepad1.a)
                 tauraServo.setPosition(1.0);
             else if(gamepad1.b)
                 tauraServo.setPosition(0.5);
             else
                 tauraServo.setPosition(0.0);
-
             telemetry.addData("Pos comandada", "%.3f", tauraServo.getPosition());
             telemetry.addData("Pos lida", "%.3f", tauraServo.getUniversalPosition());
             telemetry.addData("Pos graus absoluto", "%.3f", tauraServo.getRawPositionInDegrees());
