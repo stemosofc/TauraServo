@@ -21,7 +21,7 @@ public class ExampleTaura extends LinearOpMode {
 
         waitForStart();
         if (isStopRequested()) return;
-        //testeee
+        // Meu primeiro commit!
         while(opModeIsActive()) {
             if(gamepad1.a)
                 tauraServo.setPosition(1.0);
