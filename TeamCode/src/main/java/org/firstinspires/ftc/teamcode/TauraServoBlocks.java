@@ -32,6 +32,7 @@ public class TauraServoBlocks extends BlocksOpModeCompanion {
     public static void setAnalogFeedbackSensor(String servoName, String analogInputName) {
         TauraServo taura = getOrCreate(servoName);
         AnalogInput ai = hardwareMap.get(AnalogInput.class, analogInputName);
+        taura.setAnalogFeedbackSensor(ai);
     }
 
     @ExportToBlocks(
