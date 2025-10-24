@@ -2,21 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="Taura Move", group="Linear OpMode")
 public class ExampleTaura extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Servo servo = hardwareMap.get(Servo.class, "servo");
-        AnalogInput potentiometer = hardwareMap.get(AnalogInput.class, "potentiometer");
 
-        TauraServo tauraServo = new TauraServo(servo);
-
-        tauraServo.setAnalogFeedbackSensor(potentiometer);
-
+        TauraServo tauraServo = new TauraServo(hardwareMap,"Servo","absoluteEncoder");
         tauraServo.setPosition(0.0);
 
         waitForStart();
