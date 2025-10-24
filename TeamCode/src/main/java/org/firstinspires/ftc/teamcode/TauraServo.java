@@ -94,7 +94,9 @@ public class TauraServo {
     /**
      * Assigns the analog feedback sensor. Without this, feedback-based getters will return NaN.
      */
-
+    public void setAnalogFeedbackSensor(AnalogInput analogFeedbackSensor) {
+            this.analogFeedbackSensor = analogFeedbackSensor;
+    }
 
     /**
      * Returns the continuous incremental displacement in degrees.
