@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -25,57 +24,78 @@ public class TauraServo {
 
     /** Maximum mechanical/angular travel (degrees) used to convert universal [0..1] into raw degrees. */
     private static final double MAX_ANGLE_DEGREES_ANGULAR = 315;
+
     /**
      * Effective span (degrees) used for "unwrap" of the incremental measurement.
      * Choose the span that best represents one full cycle of your analog sensor (e.g., ~330° for many pots).
      */
-    private static final double MAX_ANGLE_DEGREES_CONTINOUS = 330;
+    private static final double MAX_ANGLE_DEGREES_CONTINUOUS = 330;
 
     /** Last sampled raw angle (degrees) used to compute deltas between samples. */
     private double lastRawAngleInDegrees = 0.0;
+
     /** Accumulated continuous displacement (degrees) since start (or since last implicit reset via restart). */
     private double deltaPositionInDegrees = 0.0;
+
     /** Optional analog input used as feedback source; if null, read functions return NaN. */
     private AnalogInput analogFeedbackSensor;
 
     /** Underlying servo instance obtained from the hardware map. */
-    private Servo baseServo = null;
+    private Servo servo;
 
     /**
-     * Constructor.
-     * @param base the base Servo instance, typically retrieved via hardwareMap.get(Servo.class, "name")
+     * Constructor that initializes the servo using an existing Servo instance.
+     * @param Servo The servo instance to be used.
      */
-    public TauraServo(@NonNull Servo base) {
-        baseServo = base;
+    public TauraServo(Servo Servo) {servo = Servo;}
+
+    /**
+     * Constructor that initializes the servo using the HardwareMap.
+     * @param hMap The robot's hardware map.
+     * @param deviceNameServo The name of the configured device in the hardware.
+     * @param deviceNameAnalogInput The name of the configured device in the hardware.
+     */
+    public TauraServo(HardwareMap hMap, String deviceNameServo, String deviceNameAnalogInput) {
+        servo = hMap.get(Servo.class, deviceNameServo);
+        analogFeedbackSensor = hMap.get(AnalogInput.class,deviceNameAnalogInput);
+    }
+
+    /**
+     * Constructor that initializes the servo using the HardwareMap.
+     * @param hMap The robot's hardware map.
+     * @param deviceName The name of the configured device in the hardware.
+     */
+    public TauraServo(HardwareMap hMap, String deviceName) {
+        servo = hMap.get(Servo.class, deviceName);
     }
 
     /**
      * Sets the target servo position in [0..1].
      * 0.0 maps to the configured min pulse; 1.0 maps to the configured max pulse.
      */
-    public void setPosition(double position) { baseServo.setPosition(position); }
+    public void setPosition(double position) { servo.setPosition(position); }
 
     /**
      * Returns the last target position sent to the servo in [0..1].
      */
-    public double getPosition() { return baseServo.getPosition(); }
+    public double getPosition() { return servo.getPosition(); }
 
     /**
      * Scales the logical range of motion without changing the servo type in Robot Configuration.
      * Useful to constrain movement to a safer subrange.
      */
-    public void scaleRange(double min, double max) { baseServo.scaleRange(min, max); }
+    public void scaleRange(double min, double max) { servo.scaleRange(min, max); }
 
     /**
      * Sets the servo direction (FORWARD/REVERSE), effectively mirroring the logical [0..1] range.
      */
-    public void setDirection(Servo.Direction direction) { baseServo.setDirection(direction); }
+    public void setDirection(Servo.Direction direction) { servo.setDirection(direction); }
 
     /**
      * Assigns the analog feedback sensor. Without this, feedback-based getters will return NaN.
      */
     public void setAnalogFeedbackSensor(AnalogInput analogFeedbackSensor) {
-        this.analogFeedbackSensor = analogFeedbackSensor;
+            this.analogFeedbackSensor = analogFeedbackSensor;
     }
 
     /**
@@ -89,11 +109,11 @@ public class TauraServo {
         double actualAngleInDegrees = getRawPositionInDegrees();
 
         double delta = actualAngleInDegrees - lastRawAngleInDegrees;
-        double halfRange = MAX_ANGLE_DEGREES_CONTINOUS / 2.0;
+        double halfRange = MAX_ANGLE_DEGREES_CONTINUOUS / 2.0;
 
         // Unwrap: if the jump crosses the wrap boundary, choose the shortest equivalent delta
-        if (delta >  halfRange) delta -= MAX_ANGLE_DEGREES_CONTINOUS;
-        else if (delta < -halfRange) delta += MAX_ANGLE_DEGREES_CONTINOUS;
+        if (delta >  halfRange) delta -= MAX_ANGLE_DEGREES_CONTINUOUS;
+        else if (delta < -halfRange) delta += MAX_ANGLE_DEGREES_CONTINUOUS;
 
         deltaPositionInDegrees += delta;
         lastRawAngleInDegrees = actualAngleInDegrees;
